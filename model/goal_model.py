@@ -1,3 +1,4 @@
+import pulp
 from pulp import *
 
 def build_goal_model(data):

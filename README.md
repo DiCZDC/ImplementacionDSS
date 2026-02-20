@@ -8,7 +8,7 @@ minimizando las desviaciones ponderadas.
 
 Ejecución:
 1. Instalar dependencias:
-   pip install -r requirements.txt
+   ```pip install -r requirements.txt```
 
 2. Ejecutar:
-   python main.py
+   ```python main.py```
