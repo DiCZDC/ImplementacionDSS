@@ -1,8 +1,8 @@
 from utils.input_handler import get_user_input
 from services.solver_service import solve_model
 from utils.output_formatter import show_results
-from gui import main_gui
 import sys
+from gui import main_gui
 from utils.pdf.generate_pdf import generate_pdf
 
 def main():
@@ -19,6 +19,7 @@ def main():
         data = get_user_input()
         results = solve_model(data)
         show_results(results)
+        generate_pdf(results)
     else:
         print("Opción inválida. Por favor ingrese 1 o 2.")
         main()

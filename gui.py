@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from services.solver_service import solve_model
 from utils.output_formatter import show_results
-
+from utils.pdf.generate_pdf import generate_pdf
 
 class DSS_GUI:
     def __init__(self, root):
@@ -193,6 +193,7 @@ class DSS_GUI:
             messagebox.showerror("Error", f"Error al resolver:\n{str(e)}")
     
     def show_results_window(self, results):
+        generate_pdf(results)
         """Muestra una ventana con los resultados"""
         results_window = tk.Toplevel(self.root)
         results_window.title("Resultados")
