@@ -3,6 +3,7 @@ from services.solver_service import solve_model
 from utils.output_formatter import show_results
 from gui import main_gui
 import sys
+from utils.pdf.generate_pdf import generate_pdf
 
 def main():
     print("=== DSS Modelo MBI de programación por metas ===\n")
