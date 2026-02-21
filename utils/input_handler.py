@@ -6,12 +6,14 @@ def get_user_input():
     utilidades = []
     costos = []
     horas = []
+    minimos = []
 
     for i in range(n):
         print(f"\nProducto {i+1}")
         utilidades.append(float(input("Utilidad por unidad: ")))
         costos.append(float(input("Costo por unidad: ")))
         horas.append(float(input("Horas requeridas por unidad: ")))
+        minimos.append(float(input("Cantidad mínima a producir: "))) 
 
     print("\n--- Metas ---")
     meta_ganancia = float(input("Meta de ganancia: "))
@@ -28,6 +30,7 @@ def get_user_input():
         "utilidades": utilidades,
         "costos": costos,
         "horas": horas,
+        "minimos": minimos,
         "meta_ganancia": meta_ganancia,
         "meta_horas": meta_horas,
         "meta_presupuesto": meta_presupuesto,

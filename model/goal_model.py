@@ -44,11 +44,16 @@ def build_goal_model(data):
         == data["meta_presupuesto"]
     )
 
+    for i in range(n):
+        model += X[i] >= data["minimos"][i]  
+
     # FUNCIÓN OBJETIVO minimizar Z
     model += (
         data["peso_ganancia"] * UNDER1 +
         data["peso_horas"] * OVER2 +
-        data["peso_presupuesto"] * OVER3
+        10 * UNDER2 + 
+        data["peso_presupuesto"] * OVER3 +
+        20 * UNDER3 
     )
 
     variables = {
