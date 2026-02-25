@@ -107,24 +107,39 @@ class PantallaInicio(tk.Frame):
         self.app = app
 
         wrap = tk.Frame(self, bg=BG)
-        wrap.place(relx=0.5, rely=0.5, anchor="center")
+        wrap.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9)
 
-        lbl(wrap, "Programación por metas", bold=True, size=20).pack(pady=(0, 4))
-        lbl(wrap, "Modelo MBI", color=GRAY).pack(pady=(0, 30))
+        # Left side
+        left = tk.Frame(wrap, bg=BG)
+        left.pack(side="left", fill="both", expand=True, padx=(0, 20))
 
-        sep(wrap).pack(fill="x", pady=(0, 24))
+        lbl(left, "Programación por metas", bold=True, size=20).pack(pady=(0, 4))
+        lbl(left, "Modelo MBI", color=GRAY).pack(pady=(0, 30))
 
-        lbl(wrap, "Numero de productos a analizar:", bold=True).pack(pady=(0, 8))
+        sep(left).pack(fill="x", pady=(0, 24))
 
-        row = tk.Frame(wrap, bg=BG)
+        lbl(left, "Numero de productos a analizar:", bold=True).pack(pady=(0, 8))
+
+        row = tk.Frame(left, bg=BG)
         row.pack()
         tk.Spinbox(row, from_=MIN_PRODUCTOS, to=MAX_PRODUCTOS,
-                   textvariable=app.n_var, width=4,
-                   font=("Segoe UI", 16, "bold"),
-                   justify="center", relief="solid", bd=1).pack()
+               textvariable=app.n_var, width=4,
+               font=("Segoe UI", 16, "bold"),
+               justify="center", relief="solid", bd=1).pack()
 
-        tk.Frame(wrap, bg=BG, height=20).pack()
-        btn(wrap, "Comenzar →", lambda: app.mostrar(PantallaProductos), w=20).pack()
+        tk.Frame(left, bg=BG, height=20).pack()
+        btn(left, "Comenzar →", lambda: app.mostrar(PantallaProductos), w=20).pack()
+
+        # Right side
+        right = tk.Frame(wrap, bg=WHITE, bd=0, highlightthickness=1, highlightbackground=BORDER)
+        right.pack(side="right", fill="both", expand=True, padx=(20, 0))
+
+        lbl(right, "Descripción", bold=True, size=12).pack(anchor="w", padx=12, pady=(12, 4))
+        sep(right).pack(fill="x", padx=12, pady=8)
+        lbl(right, "Este programa permite optimizar los recursos de una empresa dedicada a la producción y ventas de distintos productos." \
+        "\nA través de un modelo de programación por metas, se pueden establecer objetivos de ganancia, horas de trabajo y presupuesto, y el programa sugerirá la cantidad óptima a producir de cada producto para alcanzar esas metas.\n" \
+         "Además, se pueden asignar pesos a las desviaciones de cada meta, para indicar cuáles son más importantes y deben ser priorizadas en la solución.",
+            color=GRAY, size=9, wraplength=350, justify="left").pack(anchor="w", padx=12, pady=12)
 
 
 class PantallaProductos(tk.Frame):
