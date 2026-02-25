@@ -107,40 +107,80 @@ class PantallaInicio(tk.Frame):
         self.app = app
 
         wrap = tk.Frame(self, bg=BG)
-        wrap.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9)
+        wrap.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.92, relheight=0.92)
 
-        # Left side
         left = tk.Frame(wrap, bg=BG)
-        left.pack(side="left", fill="both", expand=True, padx=(0, 20))
+        left.pack(side="left", fill="both", expand=True, padx=(0, 16))
 
-        lbl(left, "Programación por metas", bold=True, size=20).pack(pady=(0, 4))
-        lbl(left, "Modelo MBI", color=GRAY).pack(pady=(0, 30))
+        lbl(left, "Programación\npor Metas", bold=True, size=22).pack(pady=(0, 2))
+        lbl(left, "Modelo MBI — Optimización de recursos", color=GRAY, size=10).pack(pady=(0, 24))
 
-        sep(left).pack(fill="x", pady=(0, 24))
+        sep(left).pack(fill="x", pady=(0, 20))
 
-        lbl(left, "Numero de productos a analizar:", bold=True).pack(pady=(0, 8))
-
+        lbl(left, "Número de productos:", bold=True, size=11).pack(pady=(0, 8))
         row = tk.Frame(left, bg=BG)
         row.pack()
-        tk.Spinbox(row, from_=MIN_PRODUCTOS, to=MAX_PRODUCTOS,
-               textvariable=app.n_var, width=4,
-               font=("Segoe UI", 16, "bold"),
-               justify="center", relief="solid", bd=1).pack()
+        tk.Spinbox(
+            row, from_=MIN_PRODUCTOS, to=MAX_PRODUCTOS,
+            textvariable=app.n_var, width=5,
+            font=("Segoe UI", 18, "bold"),
+            justify="center", relief="solid", bd=1
+        ).pack()
 
-        tk.Frame(left, bg=BG, height=20).pack()
-        btn(left, "Comenzar →", lambda: app.mostrar(PantallaProductos), w=20).pack()
+        tk.Frame(left, bg=BG, height=22).pack()
+        btn(left, "Comenzar →", lambda: app.mostrar(PantallaProductos), w=22).pack()
 
-        # Right side
-        right = tk.Frame(wrap, bg=WHITE, bd=0, highlightthickness=1, highlightbackground=BORDER)
-        right.pack(side="right", fill="both", expand=True, padx=(20, 0))
+        right = tk.Frame(wrap, bg=WHITE, bd=0,
+                         highlightthickness=1, highlightbackground=BORDER)
+        right.pack(side="right", fill="both", expand=True)
 
-        lbl(right, "Descripción", bold=True, size=12).pack(anchor="w", padx=12, pady=(12, 4))
-        sep(right).pack(fill="x", padx=12, pady=8)
-        lbl(right, "Este programa permite optimizar los recursos de una empresa dedicada a la producción y ventas de distintos productos." \
-        "\nA través de un modelo de programación por metas, se pueden establecer objetivos de ganancia, horas de trabajo y presupuesto, y el programa sugerirá la cantidad óptima a producir de cada producto para alcanzar esas metas.\n" \
-         "Además, se pueden asignar pesos a las desviaciones de cada meta, para indicar cuáles son más importantes y deben ser priorizadas en la solución.",
-            color=GRAY, size=9, wraplength=350, justify="left").pack(anchor="w", padx=12, pady=12)
+        # Encabezado del panel derecho
+        header = tk.Frame(right, bg=DARK)
+        header.pack(fill="x")
+        lbl(header, "Acerca del software", bold=True, size=11, color=WHITE).pack(
+            anchor="w", padx=14, pady=10)
 
+        # Descripción
+        desc_frame = tk.Frame(right, bg="#f0f4ff")
+        desc_frame.pack(fill="x", padx=0, pady=0)
+        lbl(desc_frame,
+            "Este programa optimiza la producción de una empresa usando un modelo de "
+            "Programación por Metas. Define tus productos, metas y prioridades, "
+            "y el sistema calculará las cantidades óptimas a producir.",
+            color="#374151", size=9, wraplength=330, justify="left"
+        ).pack(anchor="w", padx=14, pady=(10, 10))
+
+        sep(right).pack(fill="x")
+
+        # Guía de pasos
+        pasos = [
+            (1, BLUE,   "Productos",    "Ingresa utilidad, horas, costo\ny mínimo de producción por producto."),
+            (2, BLUE,   "Metas",        "Define los objetivos de ganancia,\nhoras de trabajo y presupuesto."),
+            (3, YELLOW, "Prioridades",  "Asigna peso de penalizaciones a las\ndesviaciones  de cada meta."),
+            (4, GREEN,  "Resultados",   "Revisa la producción recomendada,\ndesviaciones y análisis de metas."),
+        ]
+
+        steps_frame = tk.Frame(right, bg=WHITE)
+        steps_frame.pack(fill="both", expand=True, padx=12, pady=10)
+
+        for num, color, titulo, desc_text in pasos:
+            row_f = tk.Frame(steps_frame, bg=WHITE)
+            row_f.pack(fill="x", pady=5)
+
+            # Burbuja con número
+            bubble = tk.Frame(row_f, bg=color, width=32, height=32)
+            bubble.pack(side="left", padx=(0, 10))
+            bubble.pack_propagate(False)
+            lbl(bubble, str(num), bold=True, size=12, color=WHITE).place(relx=0.5, rely=0.5, anchor="center")
+
+            # Texto del paso
+            text_f = tk.Frame(row_f, bg=WHITE)
+            text_f.pack(side="left", fill="x", expand=True)
+            lbl(text_f, f"Paso {num} — {titulo}", bold=True, size=10, color=DARK).pack(anchor="w")
+            lbl(text_f, desc_text, color=GRAY, size=9, justify="left").pack(anchor="w")
+
+            if num < 4:
+                sep(steps_frame).pack(fill="x", pady=2)
 
 class PantallaProductos(tk.Frame):
     def __init__(self, parent, app):
@@ -195,7 +235,7 @@ class PantallaProductos(tk.Frame):
             row = tk.Frame(inner, bg=WHITE, bd=0,
                            highlightthickness=1, highlightbackground=BORDER)
             row.pack(fill="x", pady=3, padx=2)
-            lbl(row, f"X{i+1}", bold=True, color=BLUE).pack(side="left", padx=12)
+            lbl(row, f"Producto{i+1}", bold=True, color=BLUE).pack(side="left", padx=12)
             for var in (self.v_util[i], self.v_hora[i], self.v_cost[i], self.v_mini[i]):
                 e = entry(row, var)
                 e.configure(bg=WHITE)
@@ -263,9 +303,9 @@ class PantallaPesos(tk.Frame):
         lbl(wrap, "Peso 0 = esa desviacion no penaliza. Mayor peso = mas importante.", color=GRAY, size=9).pack(anchor="w", pady=(0, 12))
 
         grupos = [
-            ("Ganancia",        self.o1, "OVER1 - superar meta",    self.u1, "UNDER1 - no alcanzar"),
-            ("Horas de trabajo",self.o2, "OVER2 - exceder horas",   self.u2, "UNDER2 - quedar corto"),
-            ("Presupuesto",     self.o3, "OVER3 - exceder presup.", self.u3, "UNDER3 - quedar corto"),
+            ("Ganancia",        self.o1, "Superar meta",    self.u1, "No alcanzar"),
+            ("Horas de trabajo",self.o2, "Exceder horas",   self.u2, "Quedar corto"),
+            ("Presupuesto",     self.o3, "Exceder presupuesto", self.u3, "Quedar corto"),
         ]
 
         for titulo, ov, ol, uv, ul in grupos:
@@ -345,7 +385,7 @@ class PantallaResultados(tk.Frame):
             card = tk.Frame(x_row, bg=WHITE, bd=0,
                             highlightthickness=1, highlightbackground=BORDER)
             card.pack(side="left", padx=4, pady=2, ipadx=12, ipady=6)
-            lbl(card, f"X{i+1} — Producto {i+1}", color=GRAY, size=9).pack()
+            lbl(card, f"Producto {i+1}", color=GRAY, size=9).pack()
             lbl(card, f"{val:,.2f}", color=BLUE, bold=True, size=13).pack()
             lbl(card, f"min: {data.minimos[i]:,.0f}", color=GRAY, size=8).pack()
 
